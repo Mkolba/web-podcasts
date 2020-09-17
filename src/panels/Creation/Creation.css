@@ -1,0 +1,46 @@
+.FileInput {
+  width: 72px;
+  height: 72px;
+  background-color: var(--field_background);
+}
+
+.Image .Card__in {
+  overflow: hidden;
+  width: 72px;
+  height: 72px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.ImageWrapper {
+  padding-top: 14px;
+  padding-left: 12px;
+  padding-bottom: 2px;
+  flex-direction: row;
+}
+
+.ImageWrapper .FormLayout {
+  width: 100%
+}
+
+.TextareaWrapper {
+  height: 64px;
+}
+
+.TextareaWrapper textarea {
+  min-height: 64px;
+}
+
+.Uploaded, .Uploaded .Button, .Uploaded .Button__in, .Uploaded .Button__content {
+  padding: 0;
+  height: 72px;
+  width: 72px;
+}
+
+.Image img {
+  width: 100%;
+  height: 100%;
+}
+
+.Group__description {
+  padding-bottom: 6px !important
+}

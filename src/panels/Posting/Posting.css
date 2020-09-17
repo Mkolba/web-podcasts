@@ -1,0 +1,49 @@
+.Podcast__header {
+  position: static;
+  width: 267px;
+  height: 22px;
+  left: 0px;
+  top: 0px;
+
+  font-style: normal;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 22px;
+  flex-grow: 1;
+  white-space: nowrap;
+  overflow: ellipsis;
+}
+
+.Podcast__author {
+  position: static;
+  width: 183px;
+  height: 14px;
+  left: 0px;
+  top: 28px;
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 14px;
+  flex-grow: 1
+}
+
+.Podcast__description {
+  position: static;
+width: 183px;
+height: 14px;
+left: 0px;
+top: 48px;
+
+/* SF Caption 2 Regular */
+
+font-style: normal;
+font-weight: normal;
+font-size: 12px;
+line-height: 14px;
+/* identical to box height, or 117% */
+
+
+color: #818C99;
+flex-grow: 1
+}
