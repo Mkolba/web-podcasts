@@ -14,6 +14,14 @@ class Posting extends React.Component {
     let data = this.props.data;
     let canGo = data.name && data.image && data.audio && data.description;
 
+    let timecodes = [];
+    data.timecodes.map((item, i) => {
+      if (item.name && item.time) {
+        timecodes.push(item);
+      }
+      return;
+    })
+
     return (
       <Panel id={this.props.id}>
         <PanelHeader left={<PanelHeaderBack onClick={this.props.goBack}/>}>Новый подкаст</PanelHeader>
@@ -49,18 +57,18 @@ class Posting extends React.Component {
         </Group>
 
         <Group header={<Header>Содержание</Header>}>
-          {data.timecodes.length > 0 ?
-            data.timecodes.map((item, i) => {
-              return (
-                <Cell>
-                  <Link>{item.time}</Link> — {item.name}
-                </Cell>
-              )
-            })
+          {timecodes.length > 0 ?
+              timecodes.map((item, i) => {
+                return (
+                  <Cell>
+                    <Link>{item.time}</Link> — {item.name}
+                  </Cell>
+                )
+              })
             :
-            <Placeholder>
-              Автор подкаста не расставил таймкоды
-            </Placeholder>
+              <Placeholder header='Пусто!'>
+                Автор подкаста не расставил таймкоды.
+              </Placeholder>
           }
         </Group>
 

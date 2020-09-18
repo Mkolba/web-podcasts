@@ -1,6 +1,6 @@
 import React from 'react';
 import { Panel, Placeholder, PanelHeader, PanelHeaderBack, Button, FormLayout, Checkbox, Cell, Group, Spinner, Separator,
-         File, FormLayoutGroup, Input, Textarea, Select, Div, Card, FixedLayout, Avatar, Link } from '@vkontakte/vkui';
+         File, FormLayoutGroup, Input, Textarea, Select, Div, Card, FixedLayout, Avatar, Link, Snackbar } from '@vkontakte/vkui';
 import Icon28TargetOutline from '@vkontakte/icons/dist/28/target_outline';
 import Icon28CalendarOutline from '@vkontakte/icons/dist/28/calendar_outline';
 import Icon28PictureOutline from '@vkontakte/icons/dist/28/picture_outline';
@@ -13,7 +13,8 @@ class Creation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      duration: null
+      duration: null,
+      snackbar: null,
     }
   }
 
@@ -34,16 +35,26 @@ class Creation extends React.Component {
             seconds -= 60;
             minutes += 1;
         }
-        this.props.data.duration = `${minutes}:${seconds}`;
+        this.props.data.duration = `${minutes}:${seconds > 9 ? seconds : '0' + seconds}`;
         this.props.commit(this.props.data);
     });
     audio.src = src;
   }
 
   changeAudio = (audio) => {
-    this.props.data.audio = audio;
-    this.props.commit(this.props.data);
-    this.getAudioDuration();
+    console.log(audio);
+    if (audio.name.endsWith('.mp3') || audio.name.endsWith('.wav') || audio.name.endsWith('.ogg')) {
+      this.props.data.audio = audio;
+      this.props.commit(this.props.data);
+      this.getAudioDuration();
+    } else {
+      this.setState({ snackbar:
+        <Snackbar onClose={() => this.setState({ snackbar: null })} duration={1200}>
+          Пожалуйста, загрузите файл в формате mp3, wav или ogg.
+        </Snackbar>
+       })
+    }
+
   }
 
   delAudio = () => {
@@ -60,6 +71,14 @@ class Creation extends React.Component {
   onDescriptionChange = (value) => {
     this.props.data.description = value;
     this.props.commit(this.props.data);
+  }
+
+  openPanel = (panel) => {
+    this.setState({ snackbar:
+      <Snackbar onClose={() => this.setState({ snackbar: null })} duration={1200}>
+        Представьте, что эта кнопка открывает другую панель.
+      </Snackbar>
+     })
   }
 
   render() {
@@ -96,14 +115,14 @@ class Creation extends React.Component {
           </FormLayoutGroup>
         </FormLayout>
 
-        <Group separator='hide' style={{ paddingTop: 12 }} description={data.audio && 'Вы можете добавить таймкоды и скорректировать подкаст в режиме редактирования'}>
+        <Group separator='hide' style={{ paddingTop: 12 }} description={data.audio && 'Вы можете добавить таймкоды и немного скорректировать подкаст в режиме редактирования'}>
           { !data.audio ?
               <Placeholder header='Загрузите подкаст' action={
                 <File mode='outline' accept='".mp3,audio/"' controlSize='l' onChange={e => {this.changeAudio(e.target.files[0])}}>
                   Загрузить файл
                 </File>
               }>
-                Выберите готовый аудиофайл на вашем устройстве и добавьте его
+                Выберите готовый аудиофайл на вашем устройстве и загрузите его в редактор
               </Placeholder>
             :
 
@@ -130,10 +149,12 @@ class Creation extends React.Component {
         </Group>
 
         <Group description='При публикации записи с эпизодом, он становится доступным для всех пользователей'>
-          <Cell expandable description='Всем пользователям' onClick={() => {console.log('Представьте, что этот код открывает новую панель');}}>
+          <Cell expandable description='Всем пользователям' onClick={() => {this.openPanel()}}>
             Кому доступен данный подкаст
           </Cell>
         </Group>
+
+        {this.state.snackbar}
 
         <div style={{ height: 68 }}/>
 
